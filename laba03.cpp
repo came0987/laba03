@@ -183,6 +183,105 @@ int main()
     //Вывод данных
     show_histogram_text(bins);
     //show_histogram_svg(bins);
-
 }
+
+/*
+#include "histogram.h"
+#include <cassert>
+
+void test_positive() 
+{
+    double min = 0;
+    double max = 0;
+    find_minmax({ 1, 2, 3 }, min, max);
+    assert(min == 1);
+    assert(max == 3);
+}
+
+void test_02()
+{
+    double min = 0;
+    double max = 0;
+    find_minmax({ -3, -4, -5 }, min, max);
+    assert(min == -5);
+    assert(max == -3);
+}
+
+void test_03()
+{
+    double min = 0;
+    double max = 0;
+    find_minmax({ 1, 1, 1 }, min, max);
+    assert(min == 1);
+    assert(max == min);
+}
+
+void test_04()
+{
+    double min = 0;
+    double max = 0;
+    find_minmax({ 2 }, min, max);
+    assert(min == 2);
+    assert(max == 2);
+}
+
+void test_05()
+{
+    double min = 0, min1 = min;
+    double max = 0, max1 = max;
+    find_minmax({ }, min, max);
+    assert(min == min1);
+    assert(max == max1);
+}
+
+int main() 
+{
+    test_positive();
+    test_02();
+    test_03();
+    test_04();
+    test_05();
+}
+
+
+
+#pragma once
+#include <vector>
+using namespace std;
+
+void find_minmax(const vector<double>& numbers, double& min, double& max);
+
+
+
+
+#include <iostream>
+#include <string>
+#include "histogram.h"
+#include <vector>
+
+using namespace std;
+
+void find_minmax(const vector<double>& numbers, double& min, double& max)
+{
+
+    if (numbers.size() == 0)
+    {
+        return;
+    }
+    min = numbers[0];
+    max = numbers[0];
+
+    for (double number : numbers)
+    {
+        if (number < min)
+        {
+            min = number;
+        }
+        else if (number > max)
+        {
+            max = number;
+        }
+    }
+}
+*/
 
