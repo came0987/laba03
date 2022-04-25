@@ -43,12 +43,32 @@ void show_histogram_svg(const vector<size_t>& bins)
     const string COLOUR_GREEN = "#3ab53e";
 
     svg_begin(IMAGE_WIDTH, IMAGE_HEIGHT);
-    //svg_text(TEXT_LEFT, TEXT_BASELINE, to_string(bins[0]));
-    //svg_rect(TEXT_WIDTH, 0, bins[0] * BLOCK_WIDTH, BIN_HEIGHT);
+
     double top = 0;
+    double MAX_WIDTH = (IMAGE_WIDTH - TEXT_WIDTH) / BLOCK_WIDTH;
+
+    size_t max_bin = bins[0];
+    for (size_t bin : bins)
+    {
+        if (bin > max_bin)
+        {
+            max_bin = bin;
+        }
+    }
+
     for (size_t bin : bins) 
     {
-        const double bin_width = BLOCK_WIDTH * bin;
+        double bin_width;
+        if (max_bin > MAX_WIDTH)
+        {
+            bin_width = MAX_WIDTH * (static_cast<double>(bin) / max_bin);
+        }
+        else
+        {
+            bin_width = BLOCK_WIDTH * bin;
+        }
+        //const double bin_width = BLOCK_WIDTH * bin;
+
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, COLOUR_RED, COLOUR_BLUE);
         top += BIN_HEIGHT;
