@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<double> input_numbers(size_t count)
+vector<double> input_numbers(istream& in, size_t count)
 {
     vector<double> result(count);
     for (size_t i = 0; i < count; ++i)
@@ -15,8 +15,33 @@ vector<double> input_numbers(size_t count)
     return result;
 }
 
+Input read_input(istream& in, bool prompt)
+{
+    Input data;
 
-vector<size_t> make_histogram(size_t number_count, size_t bin_count, vector<double> numbers)
+    if (prompt)
+    {
+        cerr << "Enter number count: ";
+    }
+    size_t number_count;
+    in >> number_count;
+
+    if (prompt)
+    {
+        cerr << "Enter numbers: ";
+    }
+    data.numbers = input_numbers(in, number_count);
+
+    if (prompt)
+    {
+        cerr << "Enter bin count: ";
+    }
+    in >> data.bin_count;
+
+    return data;
+}
+
+/*vector<size_t> make_histogram(size_t number_count, size_t bin_count, vector<double> numbers)
 {
     double min, max;
     find_minmax(numbers, min, max);
@@ -44,7 +69,25 @@ vector<size_t> make_histogram(size_t number_count, size_t bin_count, vector<doub
         }
     }
     return bins;
+}*/
+
+vector <size_t>  make_histogram(Input input)
+{
+    double min, max;
+    find_minmax(input.numbers, min, max);
+    vector <size_t> result(input.bin_count);
+    for (double number : input.numbers)
+    {
+        size_t bin = (size_t)((number - min) / (max - min) * (input.bin_count));
+        if (bin == input.bin_count)
+        {
+            bin--;
+        }
+        result[bin]++;
+    }
+    return result;
 }
+
 
 void show_histogram_text(vector<size_t> bins)
 {
@@ -90,25 +133,13 @@ void show_histogram_text(vector<size_t> bins)
 
 int main()
 {
-
-    //Ввод данных
-    size_t number_count;
-    cerr << "Enter number count: ";
-    cin >> number_count;
-
-    cerr << "Enter numbers: ";
-    const auto numbers = input_numbers(number_count);
-
-    size_t bin_count;
-    cerr << "Enter bin count: ";
-    cin >> bin_count;
-
+    const auto input = read_input(cin, true);
 
     //Расчет гистограммы
-    const auto bins = make_histogram(number_count, bin_count, numbers);
+    const auto bins = make_histogram(input);
 
 
     //Вывод данных
-    //show_histogram_text(bins);
-    show_histogram_svg(bins);
+    show_histogram_text(bins);
+    //show_histogram_svg(bins);
 }
