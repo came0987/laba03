@@ -160,11 +160,20 @@ Input download(const string& address)
             cerr << curl_easy_strerror(res);
             exit(1);
         }
+        else
+        {
+            double total_time;
+            res = curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total_time);
+            if (res == CURLE_OK)
+            {
+                cerr << total_time;
+            }
+        }
         curl_easy_cleanup(curl);
     }
 
     return read_input(buffer, false);
-}
+}   
 
 int main(int argc, char* argv[])
 {
