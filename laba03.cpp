@@ -132,9 +132,19 @@ void show_histogram_text(vector<size_t> bins)
     }
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     curl_global_init(CURL_GLOBAL_ALL);
+
+    if (argc > 1)
+    {
+        cout << argc << '\t';
+        for (int i = 0; i < argc; ++i)
+        {
+            cout << argv[i] << '\t';
+        }
+        return (0);
+    }
 
     const auto input = read_input(cin, true);
 
