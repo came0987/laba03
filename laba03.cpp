@@ -90,7 +90,7 @@ void show_histogram_text(vector<size_t> bins)
 
 int main()
 {
-
+   
     //Ввод данных
     size_t number_count;
     cerr << "Enter number count: ";
