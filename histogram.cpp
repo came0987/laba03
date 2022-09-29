@@ -2,8 +2,43 @@
 #include <string>
 #include "histogram.h"
 #include <vector>
+#include <sstream>
+#include <windows.h>
 
 using namespace std;
+
+
+string make_info_text() 
+{
+    stringstream buffer;
+
+    DWORD WINAPI GetVersion(void);
+    const auto info = GetVersion();
+    printf("Win version = %u\n", info);
+    printf("Win version = %x\n", info);
+    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD version = info & mask;
+    printf("version = %u\n", version);
+    DWORD platform = info >> 16;
+    printf("platform = %u\n", platform);
+    DWORD mask2 = 0b00000000'11111111;
+    DWORD version_major = version & mask2;
+    printf("version_major = %u\n", version_major);
+    DWORD version_minor = version >> 8;
+    printf("version_minor = %u\n", version_minor);
+    DWORD build;
+    if ((version & 0x80000000) == 0)
+    {
+        build = platform;
+        printf("build = %lu\n", build);
+
+    }
+
+
+    return 0;
+    return buffer.str();
+}
+
 
 void find_minmax(const vector<double>& numbers, double& min, double& max)
 {
