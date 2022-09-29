@@ -13,7 +13,7 @@ vector<double> input_numbers(istream& in, size_t count)
     vector<double> result(count);
     for (size_t i = 0; i < count; ++i)
     {
-        cin >> result[i];
+        in >> result[i];
     }
     return result;
 }
@@ -40,7 +40,7 @@ Input read_input(istream& in, bool prompt)
         cerr << "Enter bin count: ";
     }
     in >> data.bin_count;
-
+    
     return data;
 }
 
@@ -88,6 +88,7 @@ vector <size_t>  make_histogram(Input input)
         }
         result[bin]++;
     }
+
     return result;
 }
 
@@ -143,14 +144,14 @@ size_t write_data(void* items, size_t item_size, size_t item_count, void* ctx)
     return data_size;
 }
 
-Input download(const string& adress)
+Input download(const string& address)
 {
     stringstream buffer;
 
     CURL* curl = curl_easy_init();
     if (curl) {
         CURLcode res;
-        curl_easy_setopt(curl, CURLOPT_URL, adress.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
         res = curl_easy_perform(curl);
