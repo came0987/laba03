@@ -134,15 +134,23 @@ void show_histogram_text(vector<size_t> bins)
 
 int main(int argc, char* argv[])
 {
-    curl_global_init(CURL_GLOBAL_ALL);
+    //curl_global_init(CURL_GLOBAL_ALL);
 
     if (argc > 1)
     {
-        cout << argc << '\t';
-        for (int i = 0; i < argc; ++i)
-        {
-            cout << argv[i] << '\t';
+        CURL* curl = curl_easy_init();
+        if (curl) {
+            CURLcode res;
+            curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
+            res = curl_easy_perform(curl);
+            if (res!=CURLE_OK)
+            {
+                cerr << curl_easy_strerror(res);
+                exit(1);
+            }
+            curl_easy_cleanup(curl);
         }
+
         return (0);
     }
 
