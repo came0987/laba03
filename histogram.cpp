@@ -33,9 +33,13 @@ string make_info_text()
         printf("build = %lu\n", build);
 
     }
+    cout << "Windows" << " " << "v" << version_major << "." << version_minor << " " << "(build" << " " << build << ")" << endl;
 
+    TCHAR storage[MAX_COMPUTERNAME_LENGTH + 1];
+    DWORD  bufCharCount = MAX_COMPUTERNAME_LENGTH + 1;
+    GetComputerNameA(LPSTR(storage), &bufCharCount);
+    cout << "Computer name:" << " " << storage;
 
-    return 0;
     return buffer.str();
 }
 
