@@ -14,8 +14,10 @@ string make_info_text()
 
     DWORD WINAPI GetVersion(void);
     const auto info = GetVersion();
+
     printf("Win version = %u\n", info);
     printf("Win version = %x\n", info);
+
     DWORD mask = 0b00000000'00000000'11111111'11111111;
     DWORD version = info & mask;
     printf("version = %u\n", version);
@@ -30,15 +32,15 @@ string make_info_text()
     if ((version & 0x80000000) == 0)
     {
         build = platform;
-        printf("build = %lu\n", build);
+        printf("build = %u\n", build);
 
     }
-    cout << "Windows" << " " << "v" << version_major << "." << version_minor << " " << "(build" << " " << build << ")" << endl;
+    buffer << "Windows" << " " << "v" << version_major << "." << version_minor << " " << "(build" << " " << build << ")" << '\n';
 
-    TCHAR storage[MAX_COMPUTERNAME_LENGTH + 1];
-    DWORD  bufCharCount = MAX_COMPUTERNAME_LENGTH + 1;
-    GetComputerNameA(LPSTR(storage), &bufCharCount);
-    cout << "Computer name:" << " " << storage;
+    char storage[MAX_COMPUTERNAME_LENGTH + 1];
+    DWORD  size = MAX_COMPUTERNAME_LENGTH + 1;
+    GetComputerNameA(storage, &size);
+    buffer << "Computer name:" << " " << storage;
 
     return buffer.str();
 }
@@ -94,7 +96,7 @@ void svg_rect(double x, double y, double width, double height, string stroke, st
 
 void show_histogram_svg(const vector<size_t>& bins)
 {
-    const auto IMAGE_WIDTH = 400;
+    const auto IMAGE_WIDTH = 470;
     const auto IMAGE_HEIGHT = 300;
     const auto TEXT_LEFT = 20;
     const auto TEXT_BASELINE = 20;
@@ -136,5 +138,6 @@ void show_histogram_svg(const vector<size_t>& bins)
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, COLOUR_RED, COLOUR_BLUE);
         top += BIN_HEIGHT;
     }
+    svg_text(TEXT_LEFT, 120, make_info_text());
     svg_end();
 }
